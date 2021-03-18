@@ -2,12 +2,11 @@ const express = require("express");
 const { ApolloServer, gql } = require("apollo-server-express");
 const mongoose = require("mongoose");
 const config=require('./config/keys')
+const typeDefs=require('./graphql/schema')
+const {Query}=require('./graphql/resolvers/Query')
+const {Mutation}=require('./graphql/resolvers/mutations')
 
-const typeDefs=gql`
-  type Query{
-    hello:String!
-  }
-`
+
 const resolvers={
   Query:{
     hello:()=>{
@@ -20,7 +19,10 @@ const resolvers={
 
 const server = new ApolloServer({
   typeDefs,
-  resolvers
+  resolvers:{
+    Query,
+    Mutation
+  }
 });
 
 const app = express();
