@@ -11,9 +11,12 @@ module.exports = {
             email:args.fields.email,
             password: args.fields.password
         })
-        console.log("user:"+user)
-        const result = await user.save();
-        return {...result._doc}
+        const getToken=await user.generateToken()
+        if(!getToken){
+          throw err
+        }
+
+        return {...getToken._doc}
       }
       catch(err){
           throw err
